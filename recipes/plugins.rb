@@ -1,4 +1,8 @@
-# Install plugins
+#
+# Cookbook Name:: jenkins-chef-dsl
+# Recipe:: plugins
+#
+# Installs Jenkins plugins
 
 # Flag set to true if plugin is installed or updated and jenkins will be restarted.
 #  Pattern from https://tickets.opscode.com/browse/CHEF-2452

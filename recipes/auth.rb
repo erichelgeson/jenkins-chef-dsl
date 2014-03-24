@@ -1,3 +1,9 @@
+#
+# Cookbook Name:: jenkins-chef-dsl
+# Recipe:: auth
+#
+# Configures Authentication.
+
 # This is just for having this example work, get the keys from a secure location.
 # These keys are for the 'chef' jenkins user to interact with the Jenkins API.
 private_key = "-----BEGIN RSA PRIVATE KEY-----
@@ -39,7 +45,7 @@ jenkins_user 'chef' do
 end
 
 # Set the private key on the Jenkins executor, must be done only after the user
-# has been created, otherwise API will require authentication.
+# has been created, otherwise API will require authentication and not be able to create the user.
 ruby_block 'set private key' do
   block { node.set['jenkins']['executor']['private_key'] = private_key }
 end
