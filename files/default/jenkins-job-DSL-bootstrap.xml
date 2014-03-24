@@ -1,0 +1,59 @@
+<project><actions/><description/><keepDependencies>false</keepDependencies><properties/><scm class="hudson.scm.NullSCM"/><canRoam>true</canRoam><disabled>false</disabled><blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding><blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding><triggers/><concurrentBuild>false</concurrentBuild><builders><javaposse.jobdsl.plugin.ExecuteDslScripts plugin="job-dsl@1.21"><scriptText>def gitUrl = 'git://github.com/jenkinsci/job-dsl-plugin.git'
+
+job {
+    name 'PROJ-unit-tests'
+    scm {
+        git(gitUrl)
+    }
+    triggers {
+        scm('*/15 * * * *')
+    }
+    steps { // build step
+        maven('-e clean test')
+    }
+}
+
+job {
+    name 'PROJ-sonar'
+    scm {
+        git(gitUrl)
+    }
+    triggers {
+        cron('15 13 * * *')
+    }
+    steps {
+        maven('sonar:sonar')
+    }
+}
+
+job {
+    name 'PROJ-integ-tests'
+    scm {
+        git(gitUrl)
+    }
+    triggers {
+        cron('15 1,13 * * *')
+    }
+    steps {
+        maven('-e clean integTest')
+    }
+}
+
+job {
+    // No template, not needed
+    name 'PROJ-release'
+    scm {
+        git(gitUrl)
+    }
+    // No Trigger
+    authorization { 
+        // Limit builds to just jack and jill
+        permission(Permissions.ItemBuild, 'jill')
+        permission(Permissions.ItemBuild, 'jack')
+    }
+    steps { 
+        maven('release')
+        shell('cleanup.sh')
+    }
+}</scriptText><usingScriptText>true</usingScriptText><ignoreExisting>false</ignoreExisting><removedJobAction>IGNORE</removedJobAction></javaposse.jobdsl.plugin.ExecuteDslScripts></builders><publishers/><buildWrappers/></project>
+

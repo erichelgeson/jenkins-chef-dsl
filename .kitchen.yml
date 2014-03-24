@@ -1,0 +1,29 @@
+driver:
+  name: vagrant
+  customize:
+    cpus: 2
+    memory: 1024
+  network:
+    - - forwarded_port
+      - guest: 8080
+        host: 9090
+        auto_correct: true
+
+platforms:
+  - name: ubuntu-12.04
+    run_list:
+      - apt::default
+      - jenkins::java
+
+provisioner:
+    name: chef_zero
+    require_chef_omnibus: 11.10.4
+
+suites:
+  - name: jenkins-chef-dsl
+    run_list: jenkins-chef-dsl::default
+    attributes:
+      jenkins:
+        master:
+          host: localhost
+          install_method: package
