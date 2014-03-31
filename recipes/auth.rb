@@ -50,27 +50,7 @@ ruby_block 'set private key' do
   block { node.set['jenkins']['executor']['private_key'] = private_key }
 end
 
-# This adds Github oAuth security. (login with your github id.)
-# TODO: More examples?
-jenkins_script 'add_gh_authentication' do
-  command <<-EOH.gsub(/^ {4}/, '')
-    import jenkins.model.*
-    import hudson.security.*
-    import org.jenkinsci.plugins.*
-
-    def instance = Jenkins.getInstance()
-
-    def githubRealm = new GithubSecurityRealm(
-      'https://github.com',
-      'https://api.github.com',
-      '#{node['jenkins-chef']['github']['API_KEY']}',
-      '#{node['jenkins-chef']['github']['API_SECRET']}'
-    )
-    instance.setSecurityRealm(githubRealm)
-
-    def strategy = new FullControlOnceLoggedInAuthorizationStrategy()
-    instance.setAuthorizationStrategy(strategy)
-
-    instance.save()
-  EOH
+# If auth is set, include that implementation.
+if node['jenkins-chef']['auth']
+  include_recipe "jenkins-chef-dsl::auth-#{node['jenkins-chef']['auth']}"
 end
