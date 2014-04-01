@@ -5,6 +5,8 @@
 
 include_recipe 'chef-sugar::default'
 node.set['jenkins']['master']['install_method'] = 'war'
+node.set['jenkins']['master']['version'] = '1.555'
+node.set['jenkins']['master']['source'] = "#{node['jenkins']['master']['mirror']}/war/#{node['jenkins']['master']['version']}/jenkins.war"
 include_recipe 'jenkins::master'
 
 # Plugins need to be installed before adding auth to the API.
