@@ -2,7 +2,7 @@ driver:
   name: vagrant
   customize:
     cpus: 2
-    memory: 1024
+    memory: 2048
   network:
     - - forwarded_port
       - guest: 8080
