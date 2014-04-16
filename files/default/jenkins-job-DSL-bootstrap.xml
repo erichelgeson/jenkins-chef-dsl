@@ -1,59 +1,81 @@
-<project><actions/><description/><keepDependencies>false</keepDependencies><properties/><scm class="hudson.scm.NullSCM"/><canRoam>true</canRoam><disabled>false</disabled><blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding><blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding><triggers/><concurrentBuild>false</concurrentBuild><builders><javaposse.jobdsl.plugin.ExecuteDslScripts plugin="job-dsl@1.21"><scriptText>def gitUrl = 'git://github.com/jenkinsci/job-dsl-plugin.git'
+<project>
+  <actions/>
+  <description/>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <javaposse.jobdsl.plugin.ExecuteDslScripts plugin="job-dsl@1.21">
+      <!-- Add your jenkins job dsl script here. You can/should pull this from SCM!
+      Easiest way to get this xml is to build it in the Jenkins UI first and then goto:
+      http://localhost:9090/job/jenkins-job-DSL-bootstrap/config.xml -->
+      <scriptText>
+        def gitUrl = 'git://github.com/opscode-cookbooks/jenkins.git'
+        job {
+            name 'jenkins-cookbook-rspec'
+            scm {
+                git(gitUrl)
+            }
+            triggers {
+                scm('H/15 * * * *')
+            }
+            wrappers {
+                rvm('2.1.1')
+            }
+            steps { // build step
+                shell('''
+                #!/bin/bash --login
+                source $WORKSPACE/rvm.env
+                bundle install --path vendor/bundle
+                bundle exec rspec spec/
+                '''.trim())
+            }
+        }
 
-job {
-    name 'PROJ-unit-tests'
-    scm {
-        git(gitUrl)
-    }
-    triggers {
-        scm('*/15 * * * *')
-    }
-    steps { // build step
-        maven('-e clean test')
-    }
-}
+        job {
+            name 'jenkins-cookbook-upload-dev'
+            scm {
+                git(gitUrl)
+            }
+            triggers {
+                cron('15 1,13 * * *')
+            }
+            steps {
+                shell('''
+                #!/bin/bash --login
+                knife cookbook upload . -o .
+                '''.trim())
+            }
+        }
 
-job {
-    name 'PROJ-sonar'
-    scm {
-        git(gitUrl)
-    }
-    triggers {
-        cron('15 13 * * *')
-    }
-    steps {
-        maven('sonar:sonar')
-    }
-}
-
-job {
-    name 'PROJ-integ-tests'
-    scm {
-        git(gitUrl)
-    }
-    triggers {
-        cron('15 1,13 * * *')
-    }
-    steps {
-        maven('-e clean integTest')
-    }
-}
-
-job {
-    // No template, not needed
-    name 'PROJ-release'
-    scm {
-        git(gitUrl)
-    }
-    // No Trigger
-    authorization { 
-        // Limit builds to just jack and jill
-        permission(Permissions.ItemBuild, 'jill')
-        permission(Permissions.ItemBuild, 'jack')
-    }
-    steps { 
-        maven('release')
-        shell('cleanup.sh')
-    }
-}</scriptText><usingScriptText>true</usingScriptText><ignoreExisting>false</ignoreExisting><removedJobAction>IGNORE</removedJobAction></javaposse.jobdsl.plugin.ExecuteDslScripts></builders><publishers/><buildWrappers/></project>
-
+        job {
+            // No template, not needed
+            name 'jenkins-cookbook-upload-prod'
+            scm {
+                git(gitUrl)
+            }
+            // No Trigger
+            authorization {
+                // Limit builds to just eric and chef
+                permission(Permissions.ItemBuild, 'eric')
+                permission(Permissions.ItemBuild, 'chef')
+            }
+            steps {
+                shell('knife cookbook upload . -o . --freeze')
+            }
+        }
+        </scriptText>
+      <usingScriptText>true</usingScriptText>
+      <ignoreExisting>false</ignoreExisting>
+      <removedJobAction>DELETE</removedJobAction>
+      </javaposse.jobdsl.plugin.ExecuteDslScripts>
+    </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>
