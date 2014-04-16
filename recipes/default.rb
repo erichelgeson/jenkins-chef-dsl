@@ -26,6 +26,16 @@ include_recipe 'jenkins::master'
 include_recipe 'jenkins-chef-dsl::plugins'
 include_recipe 'jenkins-chef-dsl::auth'
 
+# Setup .gitconfig, needed on first chef
+template "#{node['jenkins']['master']['home']}/.gitconfig" do
+  source 'gitconfig.erb'
+  user node['jenkins']['master']['user']
+  group node['jenkins']['master']['group']
+end
+
+# Using Chef you will likey need a ruby install.
+include_recipe 'jenkins-chef-dsl::ruby'
+
 # Initial jenkinds-dsl-bootstrap job
 #  This job will be the only job created "by hand" and will create all other jobs.
 #  In this example, we just have the jobs staticly defined in a xml file with a
