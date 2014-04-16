@@ -4,7 +4,7 @@
 #
 # Installs Jenkins plugins
 
-# TODO: See when this issue is merged see if we can resolve dependacies instead
+# TODO: When this issue is merged see if we can resolve dependacies instead
 #  https://github.com/opscode-cookbooks/jenkins/pull/175
 
 # Flag set to true if plugin is installed or updated and jenkins will be restarted.
