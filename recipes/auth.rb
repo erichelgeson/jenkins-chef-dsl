@@ -32,5 +32,5 @@ end
 
 # If auth scheme is set, include recipe with that implementation.
 if node['jenkins-chef']['auth']
-  include_recipe "jenkins-chef-dsl::auth-#{node['jenkins-chef']['auth']}"
+  include_recipe "jenkins-chef-dsl::_auth-#{node['jenkins-chef']['auth']}"
 end
