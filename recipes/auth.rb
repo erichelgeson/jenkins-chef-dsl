@@ -10,6 +10,7 @@
 unless node['jenkins']['executor']['private_key']
   require 'net/ssh'
   key = OpenSSL::PKey::RSA.new(4096)
+  # Set them in our cookbook scope till Jenkins is ready to use them.
   node.set['jenkins-chef']['user']['private_key'] = key.to_pem
   node.set['jenkins-chef']['user']['public_key'] = "#{key.ssh_type} #{[key.to_blob].pack('m0')}"
 end
