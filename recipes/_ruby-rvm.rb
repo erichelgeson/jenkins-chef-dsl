@@ -11,8 +11,12 @@ node.set['rvm']['gems'] = {
     { 'name'    => 'chef' },
     { 'name'    => 'berkshelf' },
     { 'name'    => 'foodcritic' },
-    { 'name'    => 'chefspec' },
-  }
+    { 'name'    => 'rspec' },
+    { 'name'    => 'rake' },
+    { 'name'    => 'rubocop' },
+    { 'name'    => 'test-kitchen' },
+    { 'name'    => 'kitchen-vagrant' },
+    { 'name'    => 'chefspec' }
   ],
   'ruby-2.1.1@empty-gemset' => []
 }
