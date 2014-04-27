@@ -28,8 +28,6 @@ Vagrant.configure("2") do |c|
   end
 
   c.vm.provision "chef_solo" do |chef|
-    chef.cookbooks_path = "cookbooks"
-
     chef.add_recipe "apt::default"
     chef.add_recipe "jenkins::java"
     chef.add_recipe "jenkins-chef-dsl"
