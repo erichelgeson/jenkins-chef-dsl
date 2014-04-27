@@ -1,15 +1,5 @@
 Vagrant.configure("2") do |c|
 # Plugin-specific configurations
-  # Detects vagrant-cachier plugin
-  if Vagrant.has_plugin?('vagrant-cachier')
-    puts 'INFO: Vagrant-cachier plugin detected. Optimizing caches.'
-    c.cache.auto_detect = true
-    c.cache.enable :chef
-    c.cache.enable :apt
-  else
-    puts "WARN: Vagrant-cachier plugin not detected. Please install the plugin with\n 'vagrant plugin install vagrant-cachier' from any other directory."
-  end
-
   # Detects vagrant-omnibus plugin
   if Vagrant.has_plugin?('vagrant-omnibus')
     puts 'INFO: Vagrant-omnibus plugin detected.'
