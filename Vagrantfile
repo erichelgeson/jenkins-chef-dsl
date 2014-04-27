@@ -24,7 +24,7 @@ Vagrant.configure("2") do |c|
 
   c.vm.provider :virtualbox do |p|
     p.customize ["modifyvm", :id, "--cpus", "2"]
-    p.customize ["modifyvm", :id, "--memory", "1024"]
+    p.customize ["modifyvm", :id, "--memory", "2048"]
   end
 
   c.vm.provision "chef_solo" do |chef|
