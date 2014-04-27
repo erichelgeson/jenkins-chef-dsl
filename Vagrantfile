@@ -9,10 +9,11 @@ Vagrant.configure("2") do |c|
     exit
   end
 
-  # Detects vagrant-berkshelf plugin and requests it being removed.
-  # This plugin is depricated.
+  # Detects vagrant-berkshelf plugin
   if Vagrant.has_plugin?('berkshelf')
-    puts "FATAL: Vagrant-berkshelf plugin was detected. Please uninstall the plugin with\n 'vagrant plugin uninstall vagrant-berkshelf' from any other directory\n before continuing."
+    puts 'INFO: Vagrant-berkshelf plugin detected.'
+  else
+    puts "FATAL: Vagrant-berkshelf plugin not detected. Please install the plugin with\n 'vagrant plugin install vagrant-berkshelf' from any other directory\n before continuing."
     exit
   end
 
