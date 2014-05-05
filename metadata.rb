@@ -10,3 +10,5 @@ depends 'jenkins', '~> 2.0'
 depends 'chef-sugar', '~> 1.2'
 depends 'apt'
 depends 'rvm'
+
+supports 'ubuntu'
