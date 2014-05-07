@@ -43,7 +43,7 @@ end
 end
 
 # others
-%w(job-dsl promoted-builds greenballs pegdown-formatter ruby-runtime rvm).each do |plugin|
+%w(job-dsl promoted-builds greenballs pegdown-formatter).each do |plugin|
   plugin, version = plugin.split('=')
   jenkins_plugin plugin do
     version version if version

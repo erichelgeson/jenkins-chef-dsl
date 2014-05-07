@@ -25,15 +25,9 @@
             triggers {
                 scm('H/15 * * * *')
             }
-            wrappers {
-                rvm('2.1.1')
-            }
             steps { // build step
                 shell('''
-                #!/bin/bash --login
-                source $WORKSPACE/rvm.env
-                bundle install --path vendor/bundle
-                bundle exec rspec spec/
+                PATH=/opt/chefdk/embedded/bin:$PATH rspec spec/
                 '''.trim())
             }
         }
