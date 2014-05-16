@@ -3,7 +3,7 @@
 default['jenkins-chef']['auth']                  = nil #eg: 'github', 'basic'
 default['jenkins-chef']['AuthorizationStrategy'] = nil #eg: 'FullControlOnceLoggedInAuthorizationStrategy'
 
-# Github auth example:
+#  Github auth example:
 #  Create a 'Developer Application' on Github.
 #  https://github.com/settings/applications
 #  Works for Github Enteprise too!
@@ -18,3 +18,15 @@ default['jenkins-chef']['git']['email'] = 'jenkins@example.com'
 
 # Ruby manager
 default['jenkins-chef']['ruby-manager'] = 'rvm' #eg: rvm. TODO: Rbenv
+
+# Jenkins URL
+default['jenkins-chef']['webgui']['url'] = 'CHANGEME'
+
+# Jenkins Slave User
+default['jenkins-chef']['slave']['user'] = 'jenkins'
+default['jenkins']['slave']['dir'] = '/var/lib/jenkins/'
+
+# Jenkins Master User
+# This is the user groovy commands will be executed by.
+default['jenkins']['master']['user'] = 'CHANGEME'
+default['jenkins']['master']['password'] = 'CHANGEME'
