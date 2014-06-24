@@ -18,7 +18,7 @@ include_recipe 'jenkins::java'
 node.set['jenkins']['master']['install_method'] = 'war'
 node.set['jenkins']['master']['version']  = '1.555'
 node.set['jenkins']['master']['source']   = "#{node['jenkins']['master']['mirror']}/war/#{node['jenkins']['master']['version']}/jenkins.war"
-node.set['jenkins']['master']['checksum'] = '47f9685251897f42a412cf9b88067282'
+node.set['jenkins']['master']['checksum'] = '31f5c2a3f7e843f7051253d640f07f7c24df5e9ec271de21e92dac0d7ca19431'
 
 include_recipe 'jenkins::master'
 
