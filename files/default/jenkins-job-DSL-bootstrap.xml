@@ -37,9 +37,6 @@
             scm {
                 git(gitUrl)
             }
-            triggers {
-                cron('15 1,13 * * *')
-            }
             steps {
                 shell('''
                 #!/bin/bash --login
