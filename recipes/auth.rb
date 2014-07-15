@@ -21,7 +21,7 @@ end
 #  See Caviots: https://github.com/opscode-cookbooks/jenkins#caveats
 jenkins_user 'chef' do
   full_name   'Chef Client'
-  public_keys node['jenkins-chef']['user']['public_key']
+  public_keys [ node['jenkins-chef']['user']['public_key'] ]
 end
 
 # Set the private key on the Jenkins executor, must be done only after the user
