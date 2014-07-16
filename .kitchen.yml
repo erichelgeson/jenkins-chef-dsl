@@ -25,7 +25,9 @@ provisioner:
 
 suites:
   - name: jenkins-chef-dsl
-    run_list: jenkins-chef-dsl::default
+    run_list:
+      - jenkins-chef-dsl::default
+      - jenkins-chef-dsl::proxy
     attributes:
       jenkins:
         master:
