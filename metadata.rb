@@ -9,6 +9,6 @@ version          '0.2.2'
 depends 'jenkins', '~> 2.0'
 depends 'chef-sugar', '~> 1.2'
 depends 'apt'
-depends 'rvm'
 
 supports 'ubuntu'
+supports 'centos'
