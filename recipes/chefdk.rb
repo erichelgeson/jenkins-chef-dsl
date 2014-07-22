@@ -12,7 +12,7 @@ if ubuntu?
 end
 
 if rhel?
-  chefdk_file = 'chefdk-0.2.0-1.el6.x86_64.rpm'
+  chefdk_file = 'chefdk-0.2.0-2.el6.x86_64.rpm'
 
   remote_file "#{Chef::Config[:file_cache_path]}/#{chefdk_file}" do
     source "http://opscode-omnibus-packages.s3.amazonaws.com/el/6/x86_64/#{chefdk_file}"
