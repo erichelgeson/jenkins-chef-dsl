@@ -4,9 +4,13 @@ server {
 	# Make site accessible from http://localhost/
 	server_name localhost;
 
-	location / {
+  location /artifactory {
+    proxy_pass http://localhost:8081/artifactory;
+  }
+
+  location / {
     proxy_pass http://localhost:8080/;
-	}
+  }
 }
 
 # HTTPS server
