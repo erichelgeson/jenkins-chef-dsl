@@ -17,6 +17,7 @@ else
 
   template '/etc/nginx/sites-available/jenkins' do
     source 'nginx-jenkins'
+    notifies :reload, "service[nginx]"
   end
 
   service 'nginx' do
