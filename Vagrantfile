@@ -17,8 +17,8 @@ Vagrant.configure("2") do |c|
     exit
   end
 
-  c.vm.box = "opscode-ubuntu-12.04"
-  c.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-12.04_chef-provisionerless.box"
+  c.vm.box = "opscode-ubuntu-14.04"
+  c.vm.box_url = "http://opscode-vm-bento.s3.amazonaws.com/vagrant/virtualbox/opscode_ubuntu-14.04_chef-provisionerless.box"
   c.vm.hostname = "jenkins-chef-dsl"
   c.vm.network(:forwarded_port, {:guest=>8080, :host=>9090, :auto_correct=>true})
 
