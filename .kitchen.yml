@@ -14,7 +14,7 @@ driver:
         auto_correct: true
 
 platforms:
-  - name: ubuntu-12.04
+  - name: ubuntu-14.04
     run_list:
       - apt::default
       - jenkins::java
