@@ -10,6 +10,7 @@ depends 'jenkins', '~> 2.0'
 depends 'chef-sugar', '~> 1.2'
 depends 'apt'
 depends 'artifactory'
+depends 'java', '~> 1.0'
 
 supports 'ubuntu'
 supports 'centos'
