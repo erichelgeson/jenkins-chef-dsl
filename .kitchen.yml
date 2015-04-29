@@ -12,6 +12,10 @@ driver:
       - guest: 8081
         host: 9091
         auto_correct: true
+    - - forwarded_port
+      - guest: 8080
+        host: 9092
+        auto_correct: true
 
 platforms:
   - name: ubuntu-14.04
