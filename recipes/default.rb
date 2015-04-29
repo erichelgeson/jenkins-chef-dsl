@@ -16,9 +16,9 @@ include_recipe 'jenkins::java'
 # * https://issues.jenkins-ci.org/browse/JENKINS-22346
 # * https://github.com/opscode-cookbooks/jenkins/issues/170
 node.set['jenkins']['master']['install_method'] = 'war'
-node.set['jenkins']['master']['version']  = '1.555'
-node.set['jenkins']['master']['source']   = "#{node['jenkins']['master']['mirror']}/war/#{node['jenkins']['master']['version']}/jenkins.war"
-node.set['jenkins']['master']['checksum'] = '31f5c2a3f7e843f7051253d640f07f7c24df5e9ec271de21e92dac0d7ca19431'
+node.set['jenkins']['master']['version']  = '1.596.2'
+node.set['jenkins']['master']['source']   = "#{node['jenkins']['master']['mirror']}/war-stable/#{node['jenkins']['master']['version']}/jenkins.war"
+node.set['jenkins']['master']['checksum'] = '769fee082d420819f0113d5271be98004d3f3227d98c4e445f6e5f60dde6de37'
 
 include_recipe 'jenkins::master'
 
