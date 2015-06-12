@@ -9,6 +9,13 @@ Job DSL.
 
 Automate Jenkins Infrastructure and Job management!
 
+## Jenkins Job DSL Gradle Example
+
+A great example of how to get started using the jenkins job dsl and gradle. Put
+this under the shared `seedjob/` folder.
+
+<https://github.com/sheehan/job-dsl-gradle-example>
+
 ## License
 Copyright [2015] [Eric Helgeson]
 
