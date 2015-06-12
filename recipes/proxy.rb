@@ -1,38 +1,57 @@
 # Set up a reverse proxy to allow jenkins to run on port 80
 
-require 'chef/sugar'
+case node['platform_family']
+when 'rhel', 'fedora'
 
-# Using Apache httpd for rhel based distros, nginx for others, just testing now.
-if rhel?
-  package "httpd"
-  service 'httpd' do
-    action :start
+  yum_repository 'nginx' do
+    description 'Nginx.org Repository'
+    baseurl         node['nginx']['upstream_repository']
+    gpgkey      'http://nginx.org/keys/nginx_signing.key'
+    action :create
   end
 
-  template "/etc/httpd/conf/httpd.conf" do
-    source "httpd.conf"
-  end
-else
-  package "nginx"
+when 'debian'
+  include_recipe 'apt::default'
 
-  template '/etc/nginx/sites-available/jenkins' do
-    source 'nginx-jenkins'
-    notifies :reload, "service[nginx]"
+  apt_repository 'nginx' do
+    uri          node['nginx']['upstream_repository']
+    distribution node['lsb']['codename']
+    components   %w(nginx)
+    deb_src      true
+    key          'http://nginx.org/keys/nginx_signing.key'
   end
+end
 
-  service 'nginx' do
-    action :start
-  end
+package 'nginx'
 
-  file '/etc/nginx/sites-enabled/default' do
-    action :delete
-  end
+directory '/etc/nginx/conf.d/' do
+  owner 'root'
+  group 'jenkins'
+  mode '0775'
+end
 
-  bash 'enable jenkins nginx site' do
-    code <<-EOC
-      ln -s /etc/nginx/sites-available/jenkins /etc/nginx/sites-enabled/jenkins
-    EOC
-    notifies :reload, "service[nginx]"
-    not_if {File.exists?("/etc/nginx/sites-enabled/jenkins")}
-  end
+template '/etc/nginx/conf.d/jenkins.conf' do
+  source 'nginx-jenkins'
+  notifies :reload, "service[nginx]"
+end
+
+file '/etc/nginx/conf.d/default.conf' do
+  action :delete
+  notifies :reload, "service[nginx]"
+end
+
+service 'nginx' do
+  action :start
+end
+
+cookbook_file '/root/nginx-reload.sh' do
+  source 'nginx-reload.sh'
+  owner 'root'
+  group 'root'
+  mode '0755'
+end
+
+selinux_policy_boolean 'httpd_can_network_connect' do
+  value true
+  notifies :start, 'service[nginx]', :immediate
 end
