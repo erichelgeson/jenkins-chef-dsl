@@ -1,72 +1,78 @@
 <project>
-  <actions/>
-  <description/>
-  <keepDependencies>false</keepDependencies>
-  <properties/>
-  <scm class="hudson.scm.NullSCM"/>
-  <canRoam>true</canRoam>
-  <disabled>false</disabled>
-  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
-  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
-  <triggers/>
-  <concurrentBuild>false</concurrentBuild>
-  <builders>
-    <javaposse.jobdsl.plugin.ExecuteDslScripts plugin="job-dsl@1.21">
-      <!-- Add your jenkins job dsl script here. You can/should pull this from SCM!
-      Easiest way to get this xml is to build it in the Jenkins UI first and then goto:
-      http://localhost:9090/job/jenkins-job-DSL-bootstrap/config.xml -->
-      <scriptText>
-        def gitUrl = 'git://github.com/opscode-cookbooks/jenkins.git'
-        job {
-            name 'jenkins-cookbook-rspec'
-            scm {
-                git(gitUrl)
-            }
-            triggers {
-                scm('H/15 * * * *')
-            }
-            steps { // build step
-                shell('''
-                PATH=/opt/chefdk/embedded/bin:$PATH rspec spec/
-                '''.trim())
-            }
-        }
-
-        job {
-            name 'jenkins-cookbook-upload-dev'
-            scm {
-                git(gitUrl)
-            }
-            steps {
-                shell('''
-                #!/bin/bash --login
-                knife cookbook upload . -o .
-                '''.trim())
-            }
-        }
-
-        job {
-            // No template, not needed
-            name 'jenkins-cookbook-upload-prod'
-            scm {
-                git(gitUrl)
-            }
-            // No Trigger
-            authorization {
-                // Limit builds to just eric and chef
-                permission(Permissions.ItemBuild, 'eric')
-                permission(Permissions.ItemBuild, 'chef')
-            }
-            steps {
-                shell('knife cookbook upload . -o . --freeze')
-            }
-        }
-        </scriptText>
-      <usingScriptText>true</usingScriptText>
-      <ignoreExisting>false</ignoreExisting>
-      <removedJobAction>DELETE</removedJobAction>
-      </javaposse.jobdsl.plugin.ExecuteDslScripts>
-    </builders>
-  <publishers/>
-  <buildWrappers/>
+<actions/>
+<description/>
+<logRotator class="hudson.tasks.LogRotator">
+<daysToKeep>-1</daysToKeep>
+<numToKeep>20</numToKeep>
+<artifactDaysToKeep>-1</artifactDaysToKeep>
+<artifactNumToKeep>-1</artifactNumToKeep>
+</logRotator>
+<keepDependencies>false</keepDependencies>
+<properties>
+<hudson.plugins.buildblocker.BuildBlockerProperty plugin="build-blocker-plugin@1.6">
+<useBuildBlocker>false</useBuildBlocker>
+</hudson.plugins.buildblocker.BuildBlockerProperty>
+<com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.11.2">
+</com.coravy.hudson.plugins.github.GithubProjectProperty>
+<hudson.plugins.disk__usage.DiskUsageProperty plugin="disk-usage@0.25"/>
+</properties>
+<scm class="hudson.plugins.git.GitSCM" plugin="git@2.3.5">
+<configVersion>2</configVersion>
+<userRemoteConfigs>
+<hudson.plugins.git.UserRemoteConfig>
+  <url>file:///opt/seedjob</url>
+</hudson.plugins.git.UserRemoteConfig>
+</userRemoteConfigs>
+<branches>
+<hudson.plugins.git.BranchSpec>
+<name>*/master</name>
+</hudson.plugins.git.BranchSpec>
+</branches>
+<doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+<submoduleCfg class="list"/>
+<extensions/>
+</scm>
+<canRoam>true</canRoam>
+<disabled>false</disabled>
+<blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+<blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+<jdk>(Default)</jdk>
+<triggers>
+<hudson.triggers.SCMTrigger>
+<spec>H/5 * * * *</spec>
+<ignorePostCommitHooks>false</ignorePostCommitHooks>
+</hudson.triggers.SCMTrigger>
+</triggers>
+<concurrentBuild>false</concurrentBuild>
+<builders>
+<hudson.plugins.gradle.Gradle plugin="gradle@1.24">
+<description/>
+<switches/>
+<tasks>clean test</tasks>
+<rootBuildScriptDir/>
+<buildFile/>
+<gradleName>(Default)</gradleName>
+<useWrapper>true</useWrapper>
+<makeExecutable>false</makeExecutable>
+<fromRootBuildScriptDir>true</fromRootBuildScriptDir>
+<useWorkspaceAsHome>false</useWorkspaceAsHome>
+</hudson.plugins.gradle.Gradle>
+<javaposse.jobdsl.plugin.ExecuteDslScripts plugin="job-dsl@1.34">
+<targets>jobs/**/*.groovy</targets>
+<usingScriptText>false</usingScriptText>
+<ignoreExisting>false</ignoreExisting>
+<removedJobAction>DELETE</removedJobAction>
+<removedViewAction>DELETE</removedViewAction>
+<lookupStrategy>JENKINS_ROOT</lookupStrategy>
+<additionalClasspath>src/main/groovy</additionalClasspath>
+</javaposse.jobdsl.plugin.ExecuteDslScripts>
+</builders>
+<publishers>
+<hudson.tasks.junit.JUnitResultArchiver plugin="junit@1.5">
+<testResults>build/test-results/**/*.xml</testResults>
+<keepLongStdio>false</keepLongStdio>
+<healthScaleFactor>1.0</healthScaleFactor>
+</hudson.tasks.junit.JUnitResultArchiver>
+</publishers>
+<buildWrappers/>
 </project>

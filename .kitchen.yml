@@ -1,5 +1,7 @@
 driver:
   name: vagrant
+  synced_folders:
+    - ["seedjob/", "/opt/seedjob"]
   customize:
     cpus: 2
     memory: 2048
