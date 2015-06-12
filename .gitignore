@@ -4,3 +4,4 @@ Gemfile.lock
 cookbooks/
 .vagrant/
 .kitchen.local.yml
+seedjob/
