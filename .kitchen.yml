@@ -11,16 +11,21 @@ driver:
         host: 9090
         auto_correct: true
     - - forwarded_port
-      - guest: 8081
+      - guest: 8080
         host: 9091
         auto_correct: true
 
 platforms:
   - name: ubuntu-14.04
     run_list:
+      - jenkins-chef-dsl::build-jdks
       - apt::default
       - jenkins::java
   - name: centos-6.6
+    run_list:
+      - yum::default
+      - jenkins::java
+  - name: centos-7.0
     run_list:
       - yum::default
       - jenkins::java
@@ -34,7 +39,7 @@ suites:
     run_list:
       - jenkins-chef-dsl::default
       - jenkins-chef-dsl::proxy
-      - jenkins-chef-dsl::artifactory
+        #- jenkins-chef-dsl::artifactory
     attributes:
       jenkins:
         master:
