@@ -1,0 +1,17 @@
+---
+driver:
+  name: docker
+  provision_command: curl -L https://www.getchef.com/chef/install.sh | bash
+  socket: tcp://localhost:4244
+
+
+platforms:
+- name: ubuntu
+  run_list:
+  - recipe[apt]
+- name: centos
+  driver_config:
+    image: centos
+    platform: rhel
+  run_list:
+  - recipe[yum]
