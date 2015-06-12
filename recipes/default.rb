@@ -23,7 +23,7 @@ template "#{node['jenkins']['master']['home']}/.gitconfig" do
 end
 
 # Using Chef you will likey need these utilities to test.
-include_recipe 'jenkins-chef-dsl::chefdk'
+include_recipe 'jenkins-chef-dsl::chefdk' if node['jenkins-chef']['chefdk']
 
 # Initial jenkinds-dsl-bootstrap job
 #  This job will be the only job created "by hand" and will create all other jobs.

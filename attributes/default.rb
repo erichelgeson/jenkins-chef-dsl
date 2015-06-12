@@ -19,4 +19,8 @@ default['jenkins-chef']['git']['email'] = 'jenkins@example.com'
 # Ruby manager
 default['jenkins-chef']['ruby-manager'] = 'rvm' #eg: rvm. TODO: Rbenv
 
+# Oracle JDKs
 default['java']['oracle']['accept_oracle_download_terms'] = true
+
+# Install chefdk?
+default['jenkins-chef']['chefdk'] = true
